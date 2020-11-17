@@ -45,7 +45,7 @@ def main():
     # get a sample
     container_res = []
 
-    do_process_trainset = False
+    do_process_trainset = True
     if do_process_trainset == True:
         fname_out = 'train_csvfile.csv'
         dataset = train_data_set
