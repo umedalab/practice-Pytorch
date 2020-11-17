@@ -1,6 +1,9 @@
 # practice-Pytorch
 Regression network to estimate the threshold value for image binarization.
 
+Howto
+Start virtual environment in Concrete folder
+tensorboard --logdir experiments
 
 Network
 
