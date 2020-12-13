@@ -19,7 +19,7 @@ import torch.nn.functional as F
 # skimage.metrics.structural_similarity
 from skimage.measure import compare_ssim
 
-from models.model import Net
+from models.modelcombo import Net
 from loader.CustomDataLoader import CustomImageThresholdDataset
 
 def main():

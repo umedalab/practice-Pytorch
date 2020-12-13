@@ -175,6 +175,10 @@ def main(args):
     # Save
     torch.save(custom_model.state_dict(), "my_model.pth")
 
+    # Serialize the module
+    sm = torch.jit.script(custom_model)
+    sm.save("traced_model.pt")
+
     # Test the model
     custom_model.eval()  # eval mode (batchnorm uses moving mean/variance instead of mini-batch mean/variance)
     with torch.no_grad():

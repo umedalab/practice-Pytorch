@@ -19,7 +19,7 @@ import torch.nn.functional as F
 from skimage.measure import compare_ssim
 import torch.onnx
 
-from models.modelcombo import Net
+from modelsfile.model import Net
 from loader.CustomDataLoader import CustomImageThresholdDataset
 
 # Log
@@ -76,7 +76,8 @@ def main(args):
 
     # https://pytorch.org/tutorials/intermediate/tensorboard_tutorial.html
     # Model
-    custom_model = Net().to(device)
+    model_def ="config/yolo-custom.cfg"
+    custom_model = Net(model_def).to(device)
     print(custom_model)
     summary(custom_model, (1, 256, 256))
     # applying logging only in the main process
@@ -174,6 +175,10 @@ def main(args):
 
     # Save
     torch.save(custom_model.state_dict(), "my_model.pth")
+
+    # Serialize the module
+    sm = torch.jit.script(custom_model)
+    sm.save("traced_model.pt")
 
     # Test the model
     custom_model.eval()  # eval mode (batchnorm uses moving mean/variance instead of mini-batch mean/variance)

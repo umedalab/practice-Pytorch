@@ -5,6 +5,18 @@ Howto
 Start virtual environment in Concrete folder
 tensorboard --logdir experiments
 
+
+TODO:
+ - Connect repetitive blocks
+ - Connect different blocks
+ - Custom loss
+ - Custom node
+ - Network from configuration file
+ - Test transform ONNX an test OpenVINO or other
+
+ - Save the model pt
+ - Run as C++
+
 Network
 
 # https://pytorch.org/tutorials/beginner/former_torchies/nnft_tutorial.html
