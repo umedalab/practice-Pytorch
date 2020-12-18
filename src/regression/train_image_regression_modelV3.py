@@ -86,6 +86,7 @@ def main(args):
         with torch.onnx.select_model_mode_for_export(custom_model, False):
             mytensorboard.logger.add_model(custom_model, dummy_input)
 
+
     # Loss and optimizer
     criterion = nn.L1Loss()
     #criterion = nn.MSELoss()

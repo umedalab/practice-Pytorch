@@ -79,13 +79,14 @@ def main(args):
     model_def ="config/yolo-custom.cfg"
     custom_model = Net(model_def).to(device)
     print(custom_model)
-    summary(custom_model, (1, 256, 256))
+    summary(custom_model, (1, 416, 416))
     # applying logging only in the main process
     # ### OUR CODE ###
     if myutils.is_main_process():
-        dummy_input = torch.rand(1, 1, 256, 256, requires_grad=True).to(device)
+        dummy_input = torch.rand(1, 1, 416, 416, requires_grad=True).to(device)
         with torch.onnx.select_model_mode_for_export(custom_model, False):
             mytensorboard.logger.add_model(custom_model, dummy_input)
+    exit()
 
     # Loss and optimizer
     criterion = nn.L1Loss()
