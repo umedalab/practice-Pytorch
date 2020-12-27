@@ -30,30 +30,16 @@ def mse(imageA, imageB):
 	# the two images are
 	return err
 
-def main():
 
-    transforms_train = transforms.Compose([transforms.Resize((128, 128)),
-                                           #transforms.RandomRotation(10.),
-                                           transforms.ToTensor()])
-
-    transforms_test = transforms.Compose([transforms.Resize((128, 128)),
-                                          transforms.ToTensor()])
-
-    train_data_set = CustomImageLabelDataset(data_set_path_color="/home/moro/workspace/work/Todai/Concrete/DeepSegmentor/datasets/DeepCrack/train_img", data_set_path_label="/home/moro/workspace/work/Todai/Concrete/DeepSegmentor/datasets/DeepCrack/train_lab", transforms=transforms_train)
-    test_data_set = CustomImageLabelDataset(data_set_path_color="/home/moro/workspace/work/Todai/Concrete/DeepSegmentor/datasets/DeepCrack/test_img", data_set_path_label="/home/moro/workspace/work/Todai/Concrete/DeepSegmentor/datasets/DeepCrack/test_lab", transforms=transforms_test)
-
+def preprocess_dataset(dataset, fname_out):
+    ''' This function elaborates a dataset and create the input for the training/test step.
+    	param[in] dataset Dataset to elaborate
+    	param[in] fname_out File with the list of files to be used for training/test.
+    '''
+    
     # get a sample
     container_res = []
-
-    do_process_trainset = True
-    if do_process_trainset == True:
-        fname_out = 'train_csvfile.csv'
-        dataset = train_data_set
-    else:
-        fname_out = 'test_csvfile.csv'
-        dataset = test_data_set
-
-
+ 
     for i in range(0, dataset.__len__()):
         item = dataset.__getitem__(i)
         print('image:{}'.format(item['image'].shape))
@@ -115,6 +101,24 @@ def main():
             print('item:{}'.format(item))
             file.write(item[0] + ',' + str(item[1]))
             file.write('\n')
+
+
+def main():
+
+    transforms_train = transforms.Compose([transforms.Resize((128, 128)),
+                                           #transforms.RandomRotation(10.),
+                                           transforms.ToTensor()])
+
+    transforms_test = transforms.Compose([transforms.Resize((128, 128)),
+                                          transforms.ToTensor()])
+
+    train_data_set = CustomImageLabelDataset(data_set_path_color="/home/moro/workspace/work/Todai/Concrete/DeepSegmentor/datasets/DeepCrack/train_img", data_set_path_label="/home/moro/workspace/work/Todai/Concrete/DeepSegmentor/datasets/DeepCrack/train_lab", transforms=transforms_train)
+    test_data_set = CustomImageLabelDataset(data_set_path_color="/home/moro/workspace/work/Todai/Concrete/DeepSegmentor/datasets/DeepCrack/test_img", data_set_path_label="/home/moro/workspace/work/Todai/Concrete/DeepSegmentor/datasets/DeepCrack/test_lab", transforms=transforms_test)
+
+    # process the datasets
+    preprocess_dataset(train_data_set, 'train_csvfile.csv')
+    preprocess_dataset(test_data_set, 'test_csvfile.csv')
+
 
 if __name__ == "__main__":
     main()

@@ -37,6 +37,9 @@ def train_val_dataset(dataset, val_split=0.25):
 
 def main(args):
 
+    print('run create_image_regression_out.py to create the dataset for the elaboration')
+    print('run tensorboard with the followin command:')
+    print('tensorboard --logdir experiments')
     # applying logging only in the main process
     # ### OUR CODE ###
     if myutils.is_main_process():
