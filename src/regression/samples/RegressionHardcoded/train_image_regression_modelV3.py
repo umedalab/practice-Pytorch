@@ -19,6 +19,10 @@ import torch.nn.functional as F
 from skimage.measure import compare_ssim
 import torch.onnx
 
+# https://stackoverflow.com/questions/714063/importing-modules-from-parent-folder
+import sys
+sys.path.insert(0,'../..')
+
 from models.modelcombo import Net
 from loader.CustomDataLoader import CustomImageThresholdDataset
 
@@ -33,6 +37,9 @@ def train_val_dataset(dataset, val_split=0.25):
 
 def main(args):
 
+    print('run create_image_regression_out.py to create the dataset for the elaboration')
+    print('run tensorboard with the followin command:')
+    print('tensorboard --logdir experiments')
     # applying logging only in the main process
     # ### OUR CODE ###
     if myutils.is_main_process():
@@ -57,7 +64,7 @@ def main(args):
                                           transforms.ToTensor()])
 
     # Data Loaders
-    train_data_set = CustomImageThresholdDataset(data_set_path_color="/home/moro/workspace/work/Todai/Concrete/DeepSegmentor/datasets/DeepCrack/train_img", data_set_label="train_csvfile.csv", transforms=transforms_train, do_training=True)
+    train_data_set = CustomImageThresholdDataset(data_set_path_color="/home/moro/workspace/work/Todai/Concrete/DeepSegmentor/datasets/DeepCrack/train_img", data_set_label="../CreateDataset/train_csvfile.csv", transforms=transforms_train, do_training=True)
     train_loader = DataLoader(train_data_set, batch_size=hyper_param_batch_train, shuffle=True)
 
     # Get a training and validation set from the original dataset
@@ -68,7 +75,7 @@ def main(args):
     validation_loader2 = DataLoader(validation, batch_size=hyper_param_batch_train, shuffle=True)
 
     # Test set
-    test_data_set = CustomImageThresholdDataset(data_set_path_color="/home/moro/workspace/work/Todai/Concrete/DeepSegmentor/datasets/DeepCrack/test_img", data_set_label="test_csvfile.csv", transforms=transforms_test, do_training=True)
+    test_data_set = CustomImageThresholdDataset(data_set_path_color="/home/moro/workspace/work/Todai/Concrete/DeepSegmentor/datasets/DeepCrack/test_img", data_set_label="../CreateDataset/test_csvfile.csv", transforms=transforms_test, do_training=True)
     test_loader = DataLoader(test_data_set, batch_size=hyper_param_batch_test, shuffle=False)
 
     # Device

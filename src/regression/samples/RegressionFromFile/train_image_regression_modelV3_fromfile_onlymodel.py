@@ -19,6 +19,10 @@ import torch.nn.functional as F
 from skimage.measure import compare_ssim
 import torch.onnx
 
+# https://stackoverflow.com/questions/714063/importing-modules-from-parent-folder
+import sys
+sys.path.insert(0,'../..')
+
 from modelsfile.model import Net
 from loader.CustomDataLoader import CustomImageThresholdDataset
 
@@ -51,7 +55,7 @@ def main(args):
 
     # https://pytorch.org/tutorials/intermediate/tensorboard_tutorial.html
     # Model
-    model_def ="config/yolo-custom.cfg"
+    model_def ="../../config/yolo-custom.cfg"
     custom_model = Net(model_def).to(device)
     print(custom_model)
     summary(custom_model, (1, 416, 416))

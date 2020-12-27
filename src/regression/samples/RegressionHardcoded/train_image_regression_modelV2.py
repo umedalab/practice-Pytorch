@@ -64,7 +64,7 @@ def main(args):
                                           transforms.ToTensor()])
 
     # Data Loaders
-    train_data_set = CustomImageThresholdDataset(data_set_path_color="/home/moro/workspace/work/Todai/Concrete/DeepSegmentor/datasets/DeepCrack/train_img", data_set_label="../../train_csvfile.csv", transforms=transforms_train, do_training=True)
+    train_data_set = CustomImageThresholdDataset(data_set_path_color="/home/moro/workspace/work/Todai/Concrete/DeepSegmentor/datasets/DeepCrack/train_img", data_set_label="../CreateDataset/train_csvfile.csv", transforms=transforms_train, do_training=True)
     train_loader = DataLoader(train_data_set, batch_size=hyper_param_batch_train, shuffle=True)
 
     # Get a training and validation set from the original dataset
@@ -75,7 +75,7 @@ def main(args):
     validation_loader2 = DataLoader(validation, batch_size=hyper_param_batch_train, shuffle=True)
 
     # Test set
-    test_data_set = CustomImageThresholdDataset(data_set_path_color="/home/moro/workspace/work/Todai/Concrete/DeepSegmentor/datasets/DeepCrack/test_img", data_set_label="../../test_csvfile.csv", transforms=transforms_test, do_training=True)
+    test_data_set = CustomImageThresholdDataset(data_set_path_color="/home/moro/workspace/work/Todai/Concrete/DeepSegmentor/datasets/DeepCrack/test_img", data_set_label="../CreateDataset/test_csvfile.csv", transforms=transforms_test, do_training=True)
     test_loader = DataLoader(test_data_set, batch_size=hyper_param_batch_test, shuffle=False)
 
     # Device
