@@ -23,14 +23,24 @@ import torch.onnx
 import sys
 sys.path.insert(0,'../..')
 
-from models.modelcombo import Net
+from modelsfile.model import Net
 from loader.CustomDataLoader import CustomImageThresholdDataset
-from utils.utilsModel import UtilsModel
 
 # Log
 from utils import mytensorboard, myutils
 
 
+# https://discuss.pytorch.org/t/how-can-i-connect-a-new-neural-network-after-a-trained-neural-network-and-optimize-them-together/48293/4
+class MyHugeModel(nn.Module):
+    def __init__(self, models):
+        super(MyHugeModel, self).__init__()
+        self.models = models
+        
+    def forward(self, x):
+        x0 = self.models[0](x)
+        x1 = self.models[1](x)
+        return x0 + x1
+        
 def train_val_dataset(dataset, val_split=0.25):
     lengths = [int(len(dataset)*(1.0 - val_split)), int(len(dataset)*val_split)]
     dataset_train, dataset_validation = torch.utils.data.random_split(dataset, lengths)
@@ -56,17 +66,24 @@ def main(args):
 
     # https://pytorch.org/tutorials/intermediate/tensorboard_tutorial.html
     # Model
-    custom_model = Net().to(device)
-        
-    N, C = UtilsModel.network_inputsize(custom_model)
-    print('N:{} C:{}'.format(N, C))
+    model_def ="../../config/yolo-custom.cfg"
+    #custom_model = Net(model_def).to(device)
+    
+    custom_model1 = Net(model_def).to(device)
+    custom_model2 = Net(model_def).to(device)
+    
+    models = nn.ModuleList()
+    models.append(custom_model1)
+    models.append(custom_model2)
+    
+    custom_model = MyHugeModel(models)    
     
     print(custom_model)
-    summary(custom_model, (1, 256, 256))
+    summary(custom_model, (1, 416, 416))
     # applying logging only in the main process
     # ### OUR CODE ###
     if myutils.is_main_process():
-        dummy_input = torch.rand(1, 1, 256, 256, requires_grad=True).to(device)
+        dummy_input = torch.rand(1, 1, 416, 416, requires_grad=True).to(device)
         with torch.onnx.select_model_mode_for_export(custom_model, False):
             mytensorboard.logger.add_model(custom_model, dummy_input)
 

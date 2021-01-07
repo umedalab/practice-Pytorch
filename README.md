@@ -7,15 +7,16 @@ tensorboard --logdir experiments
 
 
 TODO:
- - Connect repetitive blocks
- - Connect different blocks
- - Custom loss
- - Custom node
- - Network from configuration file
- - Test transform ONNX an test OpenVINO or other
+ [] Connect repetitive blocks
+ [] Connect different blocks
+ [] Custom loss
+ [] Custom node
+ [] Network from configuration file
+ [] Test transform ONNX an test OpenVINO or other
+ [] Connect different modules (classes)
 
- - Save the model pt
- - Run as C++
+ [] Save the model pt
+ [] Run as C++
 
 Network
 
@@ -100,3 +101,9 @@ https://pytorch.org/docs/stable/generated/torch.nn.AdaptiveAvgPool2d.html#torch.
 https://discuss.pytorch.org/t/vgg-16-architecture/27024/4
 
 https://github.com/pytorch/vision/blob/master/torchvision/models/vgg.py
+
+Pytorch tutorial (beginner)
+https://pytorch.org/tutorials/beginner/pytorch_with_examples.html
+
+Pytorch concatenate models
+https://discuss.pytorch.org/t/combine-two-model-on-pytorch/47858/6
