@@ -83,14 +83,14 @@ def main(args):
     model_def ="../../config/yolo-custom.cfg"
     custom_model = Net(model_def).to(device)
     print(custom_model)
-    summary(custom_model, (1, 416, 416))
+    summary(custom_model, (1, 256, 256))
     # applying logging only in the main process
     # ### OUR CODE ###
     if myutils.is_main_process():
-        dummy_input = torch.rand(1, 1, 416, 416, requires_grad=True).to(device)
+        dummy_input = torch.rand(1, 1, 256, 256, requires_grad=True).to(device)
         with torch.onnx.select_model_mode_for_export(custom_model, False):
             mytensorboard.logger.add_model(custom_model, dummy_input)
-    exit()
+    #exit()
 
     # Loss and optimizer
     criterion = nn.L1Loss()
@@ -103,6 +103,7 @@ def main(args):
 
     iterations = 0
     dev_every = 1000
+
 
     # Train (no validation test)
     for e in range(hyper_param_epoch):
@@ -118,7 +119,8 @@ def main(args):
             labels = torch.stack(labels).to(device)
             # Forward pass
             outputs = custom_model(images)
-            loss = criterion(outputs, labels) # classification
+            #print('outputs:{} labels:{}'.format(outputs[0], labels))
+            loss = criterion(outputs[0], labels) # classification
             # applying logging only in the main process
             if myutils.is_main_process():
                 # let's track the losses here by adding scalars
@@ -158,7 +160,7 @@ def main(args):
                         labels = torch.tensor(item['label']).to(device).float()
                         outputs = custom_model(images)
 
-                        o = (int)(outputs.detach().to('cpu').numpy() * 255)
+                        o = (int)(outputs[0].detach().to('cpu').numpy() * 255)
                         l = (int)(labels.detach().to('cpu').numpy() * 255)
                         print('output:{} labels:{}'.format(o, l))
                         total += abs(o - l)

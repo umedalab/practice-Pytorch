@@ -120,6 +120,7 @@ def main(args):
             labels = torch.stack(labels).to(device)
             # Forward pass
             outputs = custom_model(images)
+            #print('outputs:{} labels:{}'.format(outputs, labels))
             loss = criterion(outputs, labels) # classification
             # applying logging only in the main process
             if myutils.is_main_process():
