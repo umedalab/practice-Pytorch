@@ -21,9 +21,9 @@ import torch.onnx
 
 # https://stackoverflow.com/questions/714063/importing-modules-from-parent-folder
 import sys
-sys.path.insert(0,'../..')
+sys.path.insert(0,'../../..')
 
-from models.modelcombo import Net
+from modelshardcoded.model import Net
 from loader.CustomDataLoader import CustomImageThresholdDataset
 from utils.utilsModel import UtilsModel
 

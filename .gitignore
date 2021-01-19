@@ -6,10 +6,12 @@ obj/
 __pycache__
 /src/results/
 /src/runs/
+env/
 
 # Ignore local file
 /src/model_h256_w256_mode1_cuda.pt
 /src/my_model.pth
-/src/test_csvfile.csv
-/src/train_csvfile.csv
 /src/traced_model.pt
+
+/src/regression/samples/ThresholdBinarization/CreateDataset/test_csvfile.csv
+/src/regression/samples/ThresholdBinarization/CreateDataset/train_csvfile.csv

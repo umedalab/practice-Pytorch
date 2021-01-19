@@ -119,7 +119,7 @@ def main():
     transforms_test = transforms.Compose([transforms.Resize((128, 128)),
                                           transforms.ToTensor()])
 
-    path_data = '/home/moro/workspace/work/Todai/Concrete/DeepSegmentor/datasets/DeepCrack'
+    path_data = '../../../../../../datasets/DeepCrack'
     train_data_set = CustomImageLabelDataset(data_set_path_color=path_data +"/train_img", data_set_path_label=path_data +"/train_lab", transforms=transforms_train)
     test_data_set = CustomImageLabelDataset(data_set_path_color=path_data +"/test_img", data_set_path_label=path_data +"/test_lab", transforms=transforms_test)
 
