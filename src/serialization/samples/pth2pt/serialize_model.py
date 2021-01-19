@@ -17,10 +17,11 @@ from torchvision import transforms
 from torchsummary import summary
 from torch.utils.tensorboard import SummaryWriter
 import torch.nn.functional as F
-# skimage.metrics.structural_similarity
-from skimage.measure import compare_ssim
 
-from models.model import Net
+# https://stackoverflow.com/questions/714063/importing-modules-from-parent-folder
+import sys
+sys.path.insert(0,'../../../regression')
+from modelshardcoded.model import Net
 
 def TransposeModel(Weight_Path, Model, height=448, width=448, ch=3):
     device = torch.device("cuda")
@@ -29,7 +30,7 @@ def TransposeModel(Weight_Path, Model, height=448, width=448, ch=3):
     Model.eval()
     # jit へ変換
     traced_net = torch.jit.trace(Model, torch.rand(1, ch, height, width).to(device))
-    # 後の保存(Save the transposed Model)
+    # Save the transposed Model
     traced_net.save('model_h{}_w{}_mode{}_cuda.pt'.format(height, width, ch))
     print('model_h{}_w{}_mode{}_cuda.pt is exported.'.format(height, width, ch))
 
@@ -37,7 +38,8 @@ device = torch.device('cuda:0' if torch.cuda.is_available() else 'cpu')
 custom_model = Net().to(device)
 print(custom_model)
 # Set the model path
-Weight_Path = 'my_model.pth'
+Weight_Path = '../../../regression/samples/ThresholdBinarization/RegressionHardcoded/my_model.pth'
+print('Expected to find a trained model at:{}'.format(Weight_Path))
 # Set the model
 TransposeModel(Weight_Path, custom_model, 256, 256, 1)
 # Serialize the module

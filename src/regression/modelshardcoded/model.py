@@ -16,7 +16,7 @@ from torchsummary import summary
 from torch.utils.tensorboard import SummaryWriter
 import torch.nn.functional as F
 # skimage.metrics.structural_similarity
-from skimage.measure import compare_ssim
+#from skimage.measure import compare_ssim
 
 class MySubmodule(nn.Module):
     def __init__(self, in_ch, out_ch):
