@@ -1,3 +1,7 @@
+""" Code to estimates from grayscale images the threshold that maximizes the total number 
+    of white pixels with the label white pixels.
+    NB: A white margin is added when the image rotates or aligned out of the center.
+"""
 # check https://github.com/pytorch/benchmark/blob/master/rnns/fastrnns/custom_lstms.py
 
 import os
@@ -33,6 +37,9 @@ def mse(imageA, imageB):
 
 def preprocess_dataset(dataset, fname_out):
     ''' This function elaborates a dataset and create the input for the training/test step.
+    
+        The functions maximizes the structure similarity between a given source
+        image binarized ant its label.
     	param[in] dataset Dataset to elaborate
     	param[in] fname_out File with the list of files to be used for training/test.
     '''
@@ -112,8 +119,9 @@ def main():
     transforms_test = transforms.Compose([transforms.Resize((128, 128)),
                                           transforms.ToTensor()])
 
-    train_data_set = CustomImageLabelDataset(data_set_path_color="/home/moro/workspace/work/Todai/Concrete/DeepSegmentor/datasets/DeepCrack/train_img", data_set_path_label="/home/moro/workspace/work/Todai/Concrete/DeepSegmentor/datasets/DeepCrack/train_lab", transforms=transforms_train)
-    test_data_set = CustomImageLabelDataset(data_set_path_color="/home/moro/workspace/work/Todai/Concrete/DeepSegmentor/datasets/DeepCrack/test_img", data_set_path_label="/home/moro/workspace/work/Todai/Concrete/DeepSegmentor/datasets/DeepCrack/test_lab", transforms=transforms_test)
+    path_data = '/home/moro/workspace/work/Todai/Concrete/DeepSegmentor/datasets/DeepCrack'
+    train_data_set = CustomImageLabelDataset(data_set_path_color=path_data +"/train_img", data_set_path_label=path_data +"/train_lab", transforms=transforms_train)
+    test_data_set = CustomImageLabelDataset(data_set_path_color=path_data +"/test_img", data_set_path_label=path_data +"/test_lab", transforms=transforms_test)
 
     # process the datasets
     preprocess_dataset(train_data_set, 'train_csvfile.csv')

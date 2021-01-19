@@ -23,7 +23,7 @@ from skimage.measure import compare_ssim
 import sys
 sys.path.insert(0,'../..')
 
-from models.modelcombo import Net
+from models.modelshardcoded import Net
 from loader.CustomDataLoader import CustomImageThresholdDataset
 
 def main():

@@ -23,7 +23,7 @@ import torch.onnx
 import sys
 sys.path.insert(0,'../..')
 
-from models.modelcombo import Net
+from models.modelshardcoded import Net
 from loader.CustomDataLoader import CustomImageThresholdDataset
 
 # Log
