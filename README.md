@@ -55,8 +55,17 @@ TODO:
  [] Test transform ONNX an test OpenVINO or other
  [] Connect different modules (classes)
 
- [x] Save the model pt
- [] Run as C++
+# Examples
+
+## Classification
+
+Examples for image classification.  
+
+### basicmulticlass
+
+It contains Python training/testing/exporting code, and import C++ code for runtime classification.  
+NOTE: It requires the CPP version of pytorch in the computer. 
+I.e. D:\workspace\programs\ThirdPartyLib\libtorch-win-shared-with-deps-1.7.0+cu101 
 
 #Additional Link
 

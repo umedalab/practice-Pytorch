@@ -15,3 +15,11 @@ env/
 
 /src/regression/samples/ThresholdBinarization/CreateDataset/test_csvfile.csv
 /src/regression/samples/ThresholdBinarization/CreateDataset/train_csvfile.csv
+
+/src/classification/basicmulticlass/python/BSCNN_h128_w128_mode3_cuda.pt
+/src/classification/basicmulticlass/python/my_demo_model.pth
+/src/classification/basicmulticlass/python/traced_model.pt
+/src/classification/basicmulticlass/python/runs/
+
+# Test code
+/test/resnet/model.pt
