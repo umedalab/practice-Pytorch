@@ -4,7 +4,7 @@ The projects are used as practice or base for further research.
 
 # Howto
 Create a virtual environment.  
-'''  
+"""  
 Linux
 python3 -m venv env  
 source env/bin/activate
@@ -12,7 +12,7 @@ source env/bin/activate
 Windows
 python -m venv env
 env/Script/activate.bin
-'''  
+"""  
 
 ## Required
 Install all the third party libraries (Linux, on Windows use pip).  
@@ -22,16 +22,17 @@ Install all the third party libraries (Linux, on Windows use pip).
   pip3 install tensorboard  
   pip3 install tensorboardX  
   pip3 install scikit-image   
+  pip3 install tqdm
 
 Download the dataset DeepCrack:  
 https://github.com/yhlleo/DeepCrack  
 
 In a terminal, start virtual environment.  
-'''  
+"""  
 tensorboard --logdir experiments  
-'''  
+"""  
 
-##Run
+## Run
 Open two terminals, and for each terminal:  
 
 In a terminal:  
@@ -46,14 +47,14 @@ start virtual environment
 source env/bin/activate  
 run samples  
 
-TODO:
- [x] Connect repetitive blocks
- [x] Connect different blocks
- [] Custom loss
- [] Custom node
- [] Network from configuration file
- [] Test transform ONNX an test OpenVINO or other
- [] Connect different modules (classes)
+TODO:  
+ [x] Connect repetitive blocks  
+ [x] Connect different blocks  
+ [] Custom loss  
+ [] Custom node  
+ [] Network from configuration file  
+ [] Test transform ONNX an test OpenVINO or other  
+ [] Connect different modules (classes)  
 
 # Examples
 
@@ -69,7 +70,7 @@ I.e. D:\workspace\programs\ThirdPartyLib\libtorch-win-shared-with-deps-1.7.0+cu1
 
 #Additional Link
 
-##Network
+## Network  
 
 https://pytorch.org/tutorials/beginner/former_torchies/nnft_tutorial.html  
 https://pytorch.org/tutorials/beginner/blitz/neural_networks_tutorial.html  
@@ -84,20 +85,20 @@ https://stackoverflow.com/questions/57802632/loss-is-not-converging-in-pytorch-b
 https://discuss.pytorch.org/t/sloved-why-my-loss-not-decreasing/15924/6  
 https://discuss.pytorch.org/t/cnn-does-not-predict-properly-does-not-converge-as-expected/43567  
 
-##Architecture
+## Architecture
 
 https://medium.com/@RaghavPrabhu/cnn-architectures-lenet-alexnet-vgg-googlenet-and-resnet-7c81c017b848  
 
-##Visualize Filters
+## Visualize Filters
 
 https://discuss.pytorch.org/t/how-to-visualize-the-actual-convolution-filters-in-cnn/13850/11  
 
-##Loss
+## Loss
 
 https://discuss.pytorch.org/t/non-linear-regression-methods/62060/2  
 https://www.programmersought.com/article/16614780143/  
 
-'''
+"""  
 def hingeLoss(outputVal,dataOutput,model):
     #print('outputVal:{} dataOutput:{}'.format(outputVal, dataOutput))
     loss1=torch.sum(torch.clamp(1 - torch.matmul(outputVal.t(),dataOutput),min=0))
@@ -105,13 +106,13 @@ def hingeLoss(outputVal,dataOutput,model):
     totalLoss=loss1+loss2
     #print('loss1:{} loss2:{}'.format(loss1, loss2))
     return(totalLoss)
-'''
+"""  
 https://medium.com/udacity-pytorch-challengers/a-brief-overview-of-loss-functions-in-pytorch-c0ddb78068f7  
 
-##Activation Functions
+## Activation Functions
 https://missinglink.ai/guides/neural-network-concepts/7-types-neural-network-activation-functions-right/  
 
-##Other
+## Other
 http://alexlenail.me/NN-SVG/LeNet.html  
 https://medium.com/@RaghavPrabhu/cnn-architectures-lenet-alexnet-vgg-googlenet-and-resnet-7c81c017b848#:~:text=VGG%2D16%20is%20a%20simpler,2%20with%20stride%20of%202.&text=The%20winner%20of%20ILSVRC%202014,also%20known%20as%20Inception%20Module.  
 https://www.pyimagesearch.com/2017/03/20/imagenet-vggnet-resnet-inception-xception-keras/#:~:text=The%20VGG%20network%20architecture%20was,each%20other%20in%20increasing%20depth.  
@@ -123,8 +124,16 @@ https://pytorch.org/docs/stable/generated/torch.nn.AdaptiveAvgPool2d.html#torch.
 https://discuss.pytorch.org/t/vgg-16-architecture/27024/4  
 https://github.com/pytorch/vision/blob/master/torchvision/models/vgg.py  
 
-##Pytorch tutorial (beginner)
+## Pytorch tutorial (beginner)
 https://pytorch.org/tutorials/beginner/pytorch_with_examples.html  
 
-##Pytorch concatenate models
+## Pytorch concatenate models
 https://discuss.pytorch.org/t/combine-two-model-on-pytorch/47858/6  
+
+
+
+# Known Issues
+
+## File manager does not show files.
+Ctrl+R  
+https://askubuntu.com/questions/806491/some-files-not-showing-up-in-file-manager-but-definitely-are-there  

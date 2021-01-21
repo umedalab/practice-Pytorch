@@ -19,6 +19,11 @@ from torch.utils.tensorboard import SummaryWriter
 import torch.nn.functional as F
 from skimage.metrics import structural_similarity 
 #from skimage.measure import compare_ssim
+
+# https://stackoverflow.com/questions/714063/importing-modules-from-parent-folder
+import sys
+sys.path.insert(0,'../../..')
+
 from loader.CustomDataLoader import CustomImageLabelDataset
 
 

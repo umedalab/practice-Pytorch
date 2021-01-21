@@ -16,7 +16,7 @@ from torchsummary import summary
 from torch.utils.tensorboard import SummaryWriter
 import torch.nn.functional as F
 # skimage.metrics.structural_similarity
-from skimage.measure import compare_ssim
+#from skimage.measure import compare_ssim
 import torch.onnx
 
 # https://stackoverflow.com/questions/714063/importing-modules-from-parent-folder
@@ -81,7 +81,7 @@ def main(args):
 
     # https://pytorch.org/tutorials/intermediate/tensorboard_tutorial.html
     # Model
-    model_def ="../../config/yolo-custom.cfg"
+    model_def ="../../../config/yolo-custom.cfg"
     custom_model = Net(model_def).to(device)
     print(custom_model)
     summary(custom_model, (1, 256, 256))

@@ -17,7 +17,7 @@ from torchsummary import summary
 from torch.utils.tensorboard import SummaryWriter
 import torch.nn.functional as F
 # skimage.metrics.structural_similarity
-from skimage.measure import compare_ssim
+#from skimage.measure import compare_ssim
 
 # https://stackoverflow.com/questions/714063/importing-modules-from-parent-folder
 import sys

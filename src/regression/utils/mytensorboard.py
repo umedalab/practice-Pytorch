@@ -29,7 +29,7 @@ total_epochs = 0  # init total number of epochs
 global_iter = 0  # init total number of iterations
 
 name = "exp-000"  # init experiment name
-log_dir = "../../experiments"  # init path where tensorboard logs will be stored
+log_dir = "../../../experiments"  # init path where tensorboard logs will be stored
 # (if log_dir is not specified writer object will automatically generate filename)
 # Log files will be saved in 'experiments/exp-000'
 # create our custom logger
