@@ -32,6 +32,8 @@ env/
 /src/serialization/samples/pth2pt/model_h256_w256_mode1_cuda.pt
 /src/serialization/samples/pth2pt/traced_model.pt
 
+/src/mask/data/
+
 # Test code
 /test/resnet/model.pt
 
