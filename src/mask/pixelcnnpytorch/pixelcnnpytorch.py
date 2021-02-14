@@ -28,77 +28,79 @@ class MaskedConv2d(nn.Conv2d):
         self.weight.data *= self.mask
         return super(MaskedConv2d, self).forward(x)
 
-fm = 64
-net = nn.Sequential(
-    MaskedConv2d('A', 1,  fm, 7, 1, 3, bias=False), nn.BatchNorm2d(fm), nn.ReLU(True),
-    MaskedConv2d('B', fm, fm, 7, 1, 3, bias=False), nn.BatchNorm2d(fm), nn.ReLU(True),
-    MaskedConv2d('B', fm, fm, 7, 1, 3, bias=False), nn.BatchNorm2d(fm), nn.ReLU(True),
-    MaskedConv2d('B', fm, fm, 7, 1, 3, bias=False), nn.BatchNorm2d(fm), nn.ReLU(True),
-    MaskedConv2d('B', fm, fm, 7, 1, 3, bias=False), nn.BatchNorm2d(fm), nn.ReLU(True),
-    MaskedConv2d('B', fm, fm, 7, 1, 3, bias=False), nn.BatchNorm2d(fm), nn.ReLU(True),
-    MaskedConv2d('B', fm, fm, 7, 1, 3, bias=False), nn.BatchNorm2d(fm), nn.ReLU(True),
-    MaskedConv2d('B', fm, fm, 7, 1, 3, bias=False), nn.BatchNorm2d(fm), nn.ReLU(True),
-    nn.Conv2d(fm, 256, 1))
-print(net)
-net.cuda()
 
-transform=transforms.Compose([
-    transforms.ToTensor(),
-    transforms.Normalize((0.1307,), (0.3081,))
-    ])
 
-tr = datasets.MNIST('../data', train=True, download=True,
-                    transform=transform)
-te = datasets.MNIST('../data', train=False,
-                    transform=transform)
+def main():
+    fm = 64
+    net = nn.Sequential(
+        MaskedConv2d('A', 1,  fm, 7, 1, 3, bias=False), nn.BatchNorm2d(fm), nn.ReLU(True),
+        MaskedConv2d('B', fm, fm, 7, 1, 3, bias=False), nn.BatchNorm2d(fm), nn.ReLU(True),
+        MaskedConv2d('B', fm, fm, 7, 1, 3, bias=False), nn.BatchNorm2d(fm), nn.ReLU(True),
+        MaskedConv2d('B', fm, fm, 7, 1, 3, bias=False), nn.BatchNorm2d(fm), nn.ReLU(True),
+        MaskedConv2d('B', fm, fm, 7, 1, 3, bias=False), nn.BatchNorm2d(fm), nn.ReLU(True),
+        MaskedConv2d('B', fm, fm, 7, 1, 3, bias=False), nn.BatchNorm2d(fm), nn.ReLU(True),
+        MaskedConv2d('B', fm, fm, 7, 1, 3, bias=False), nn.BatchNorm2d(fm), nn.ReLU(True),
+        MaskedConv2d('B', fm, fm, 7, 1, 3, bias=False), nn.BatchNorm2d(fm), nn.ReLU(True),
+        nn.Conv2d(fm, 256, 1))
+    print(net)
+    net.cuda()
 
-#tr = data.DataLoader(datasets.MNIST('../data', train=True, download=True, transform=transforms.ToTensor()),
-#                     batch_size=128, shuffle=True, num_workers=1, pin_memory=True)
-#te = data.DataLoader(datasets.MNIST('../data', train=False, download=True, transform=transforms.ToTensor()),
-#                     batch_size=128, shuffle=False, num_workers=1, pin_memory=True)
+    tr = data.DataLoader(datasets.MNIST('data', train=True, download=True, transform=transforms.ToTensor()),
+                         batch_size=128, shuffle=True, num_workers=1, pin_memory=True)
+    te = data.DataLoader(datasets.MNIST('data', train=False, download=True, transform=transforms.ToTensor()),
+                         batch_size=128, shuffle=False, num_workers=1, pin_memory=True)
 
-sample = torch.Tensor(144, 1, 28, 28).cuda()
-optimizer = optim.Adam(net.parameters())
-for epoch in range(25):
-    # train
-    err_tr = []
-    cuda.synchronize()
-    time_tr = time.time()
-    net.train(True)
-    for input, _ in tr:
-        print('input:{}'.format(input.shape))
-        input = Variable(input.cuda(async=True))
-        target = Variable((input.data[:,0] * 255).long())
-        loss = F.cross_entropy(net(input), target)
-        err_tr.append(loss.data[0])
-        optimizer.zero_grad()
-        loss.backward()
-        optimizer.step()
-    cuda.synchronize()
-    time_tr = time.time() - time_tr
+    sample = torch.Tensor(144, 1, 28, 28).cuda()
+    optimizer = optim.Adam(net.parameters())
+    for epoch in range(25):
+        print('epoch:{}'.format(epoch))
+        # train
+        err_tr = []
+        cuda.synchronize()
+        time_tr = time.time()
+        net.train(True)
+        print('train:{}'.format(epoch))
+        for input0, _ in tr:
+            #print('input0:{}'.format(input0))
+            input0 = Variable(input0.cuda(async=True))
+            target = Variable((input0.data[:,0] * 255).long())
+            #print('input0A:{}'.format(input0))
+            loss = F.cross_entropy(net(input0), target)
+            #print('loss:{}'.format(loss))
+            err_tr.append(loss.item())
+            optimizer.zero_grad()
+            loss.backward()
+            optimizer.step()
+        cuda.synchronize()
+        time_tr = time.time() - time_tr
 
-    # compute error on test set
-    err_te = []
-    cuda.synchronize()
-    time_te = time.time()
-    net.train(False)
-    for input, _ in te:
-        input = Variable(input.cuda(async=True), volatile=True)
-        target = Variable((input.data[:,0] * 255).long())
-        loss = F.cross_entropy(net(input), target)
-        err_te.append(loss.data[0])
-    cuda.synchronize()
-    time_te = time.time() - time_te
+        print('test:{}'.format(epoch))
+        # compute error on test set
+        err_te = []
+        cuda.synchronize()
+        time_te = time.time()
+        net.train(False)
+        for input0, _ in te:
+            input0 = Variable(input0.cuda(async=True), volatile=True)
+            target = Variable((input0.data[:,0] * 255).long())
+            loss = F.cross_entropy(net(input0), target)
+            err_te.append(loss.item())
+        cuda.synchronize()
+        time_te = time.time() - time_te
 
-    # sample
-    sample.fill_(0)
-    net.train(False)
-    for i in range(28):
-        for j in range(28):
-            out = net(Variable(sample, volatile=True))
-            probs = F.softmax(out[:, :, i, j]).data
-            sample[:, :, i, j] = torch.multinomial(probs, 1).float() / 255.
-    utils.save_image(sample, 'sample_{:02d}.png'.format(epoch), nrow=12, padding=0)
+        # sample
+        sample.fill_(0)
+        net.train(False)
+        for i in range(28):
+            for j in range(28):
+                out = net(Variable(sample, volatile=True))
+                probs = F.softmax(out[:, :, i, j]).data
+                sample[:, :, i, j] = torch.multinomial(probs, 1).float() / 255.
+        utils.save_image(sample, 'sample_{:02d}.png'.format(epoch), nrow=12, padding=0)
 
-    print('epoch={}; nll_tr={:.7f}; nll_te={:.7f}; time_tr={:.1f}s; time_te={:.1f}s'.format(
-        epoch, np.mean(err_tr), np.mean(err_te), time_tr, time_te))
+        print('epoch={}; nll_tr={:.7f}; nll_te={:.7f}; time_tr={:.1f}s; time_te={:.1f}s'.format(
+            epoch, np.mean(err_tr), np.mean(err_te), time_tr, time_te))
+
+
+if __name__ == "__main__":
+    main()
