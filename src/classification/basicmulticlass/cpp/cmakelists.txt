@@ -3,10 +3,10 @@ project(example-app)
 
 ######################################################################
 # OpenCV
-find_package(OpenCV REQUIRED PATHS "c:/src/opencv/build")
+find_package(OpenCV REQUIRED PATHS "d:/src/opencv/build")
 
 #find_package(Torch REQUIRED PATHS "D:/workspace/programs/ThirdPartyLib/libtorch-win-shared-with-deps-1.4.0/libtorch/share/cmake/Torch")
-find_package(Torch REQUIRED PATHS "D:/workspace/programs/ThirdPartyLib/libtorch-win-shared-with-deps-1.7.0+cu101/libtorch/share/cmake/Torch")
+find_package(Torch REQUIRED PATHS "D:/workspace/programs/ThirdPartyLib/libtorch")
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} ${TORCH_CXX_FLAGS}")
 
 add_executable(example-app example-app.cpp)

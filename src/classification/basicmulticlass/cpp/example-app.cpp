@@ -50,7 +50,8 @@ int main()
 		cv::Mat frame, resized_frame, rgb_frame;
 
 		int key;
-		std::string fname = "../../../../../data/classification/classes4/test/car/010.jpg";
+		//std::string fname = "../../../../../data/classification/classes4/test/car/010.jpg";
+		std::string fname = "../../../../../data/classification/classes4/test/dog/013.jpg";
 		frame = cv::imread(fname);
 		if (!frame.empty()) {
 			std::cout << "[+] open:" << fname << std::endl;
@@ -85,6 +86,33 @@ int main()
 
 		cv::imshow("frame", frame);
 		key = cv::waitKey(0);
+
+
+		for (int i = 0; i < 1000; ++i) {
+			clock_t time1 = clock();
+			auto frame_tensor = torch::from_blob(resized_frame.data, { 1, resized_frame.rows, resized_frame.cols, 3 }, at::kByte);
+			frame_tensor = frame_tensor.to(at::kFloat).div(255.0).clamp(0.0, 1.0);
+			frame_tensor = frame_tensor.permute({ 0, 3, 1, 2 });
+			auto input_cuda = frame_tensor.to(at::kCUDA);
+
+			auto frame_tensor2 = torch::from_blob(resized_frame.data, { 1, resized_frame.rows, resized_frame.cols, 3 }, at::kByte);
+			frame_tensor2 = frame_tensor2.to(at::kFloat).div(255.0).clamp(0.0, 1.0);
+			frame_tensor2 = frame_tensor2.permute({ 0, 3, 1, 2 });
+			auto input_cuda2 = frame_tensor2.to(at::kCUDA);
+
+			//std::cout << frame_tensor << std::endl;
+			clock_t time2 = clock();
+			at::Tensor inputs = torch::cat({ input_cuda,input_cuda2 }, 0);
+			//auto output_cuda = module.forward({ input_cuda }).toTensor();
+			auto output_cuda = module.forward({ inputs }).toTensor();
+			// Send to CPU
+			auto output = output_cuda.to(at::kCPU).detach();
+			clock_t end = clock();
+			std::cout << "transpose_time:" << (double)(time2 - time1) / CLOCKS_PER_SEC << std::endl;
+			std::cout << "model_time:" << (double)(end - time2) / CLOCKS_PER_SEC << std::endl;
+			std::cout << "output: }}}" << output << "{{{" << std::endl;
+		}
+
 		cv::destroyAllWindows();
 	}
 	catch (const c10::Error& e) {
