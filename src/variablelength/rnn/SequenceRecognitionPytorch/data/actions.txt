@@ -1,0 +1,9 @@
+standing
+bending
+sitting
+standing up
+sitting down
+sleeping
+bed get up
+falling
+forward leaning posture

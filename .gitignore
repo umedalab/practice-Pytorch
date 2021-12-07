@@ -7,6 +7,12 @@ __pycache__
 /src/results/
 /src/runs/
 env/
+/src/experiments/
+/src/mask/data/
+/src/mask/pixelcnnpytorch/data/
+
+# Ignore extensions
+*.pth
 
 # Ignore local file
 
