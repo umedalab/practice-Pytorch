@@ -64,7 +64,8 @@ def main(args):
                                           transforms.ToTensor()])
 
     # Data Loaders
-    path_data = '../../../../../../datasets/DeepCrack'
+    #path_data = '../../../../../../datasets/DeepCrack'
+    path_data = 'D:/datasets/Concrete/DeepCrack'
     train_data_set = CustomImageThresholdDataset(data_set_path_color=path_data + '/train_img', data_set_label="../CreateDataset/train_csvfile.csv", transforms=transforms_train, do_training=True)
     train_loader = DataLoader(train_data_set, batch_size=hyper_param_batch_train, shuffle=True)
 
