@@ -41,7 +41,8 @@ def main():
 
 
     # Data Loaders
-    path_data = '../../../../../../datasets/DeepCrack'
+    #path_data = '../../../../../../datasets/DeepCrack'
+    path_data = 'D:/datasets/Concrete/DeepCrack'
     # Test set
     test_data_set = CustomImageThresholdDataset(data_set_path_color=path_data + '/test_img', data_set_label="../CreateDataset/test_csvfile.csv", transforms=transforms_test, do_training=True)
     test_loader = DataLoader(test_data_set, batch_size=hyper_param_batch_test, shuffle=False)
