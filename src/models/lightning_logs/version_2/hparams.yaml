@@ -1,0 +1,6 @@
+modelA_hparams: !!python/object/new:pytorch_lightning.utilities.parsing.AttributeDict
+  dictitems:
+    hidden_dim: 10
+modelB_hparams: !!python/object/new:pytorch_lightning.utilities.parsing.AttributeDict
+  dictitems:
+    hidden_dim: 10

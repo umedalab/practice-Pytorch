@@ -23,7 +23,7 @@ import torch.onnx
 import sys
 sys.path.insert(0,'../../..')
 
-from modelsfile.model import Net
+from modelsfile.mymodel import Net
 from loader.CustomDataLoader import CustomImageThresholdDataset
 
 # Log
@@ -55,14 +55,17 @@ def main(args):
 
     # https://pytorch.org/tutorials/intermediate/tensorboard_tutorial.html
     # Model
-    model_def ="../../../config/yolo-custom.cfg"
+    #model_def ="../../../config/yolo-custom.cfg"
+    model_def ="../../../config/yolov3-tiny.cfg"
     custom_model = Net(model_def).to(device)
     print(custom_model)
-    summary(custom_model, (1, 416, 416))
+    dummy_input = torch.rand(1, 3, 416, 416, requires_grad=True).to(device)
+    out = custom_model(dummy_input)
+    #summary(custom_model, (3, 416, 416))
     # applying logging only in the main process
     # ### OUR CODE ###
-    if myutils.is_main_process():
-        dummy_input = torch.rand(1, 1, 416, 416, requires_grad=True).to(device)
+    if False and myutils.is_main_process():
+        dummy_input = torch.rand(1, 3, 416, 416, requires_grad=True).to(device)
         with torch.onnx.select_model_mode_for_export(custom_model, False):
             mytensorboard.logger.add_model(custom_model, dummy_input)
 
